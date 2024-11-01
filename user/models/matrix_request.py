@@ -17,4 +17,4 @@ class MatrixRequest(models.Model):
     ordering = ['created']
   
   def __str__(self):
-    return f'{self.name} {"♂" if self.gender == 'm' else "♀"} ${self.date}'
+    return f'{self.name} {"♂" if self.gender == "m" else "♀"} ${self.date}'

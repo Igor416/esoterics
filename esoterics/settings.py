@@ -112,12 +112,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR.joinpath('static')]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR.joinpath('media')
-
-PUBLIC_URL = '/public/'
-PUBLIC_ROOT = BASE_DIR.joinpath('public')
-
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True
