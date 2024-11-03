@@ -14,11 +14,12 @@ class MasterSerializer(ModelSerializer):
       if key.endswith('_hours'):
         val = r.pop(key)
         hours = []
-        for el in val.split(','):
-          if '-' in el:
-            start, end = list(map(int, el.split('-')))
-            hours.extend(range(start, end + 1))
-          else:
-            hours.append(int(el))
+        if val != '':
+          for el in val.split(','):
+            if '-' in el:
+              start, end = list(map(int, el.split('-')))
+              hours.extend(range(start, end + 1))
+            else:
+              hours.append(int(el))
         r['hours'].append(hours)
     return r
