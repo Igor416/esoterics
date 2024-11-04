@@ -24,7 +24,7 @@ class MatrixRequestsView(APIView):
     return Response(serializer.data)
   
   def post(self, request):
-    id = request.data.pop('id')
+    id = request.data.pop('id', '')
     queryset = MatrixRequest.objects.filter(id=id)
     
     if queryset.exists() and queryset.first().user == request.user:
