@@ -7,9 +7,9 @@ class MatrixRequest(models.Model):
   name = models.CharField('Имя', max_length=32)
   gender = models.CharField('Гендер', choices={'m': 'парень', 'f': 'девушка'}, max_length=1)
   date = models.CharField('Дата рождения', max_length=10)
-  paired = models.OneToOneField('self', on_delete=models.CASCADE, null=True, blank=True)
+  paired = models.OneToOneField('self', related_name='pair', on_delete=models.CASCADE, null=True, blank=True)
   created = models.DateTimeField('Создан', auto_now_add=True)
-  user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+  user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='requests')
   
   class Meta:
     verbose_name = 'Запрос по матрице'
@@ -17,4 +17,9 @@ class MatrixRequest(models.Model):
     ordering = ['created']
   
   def __str__(self):
-    return f'{self.name} {"♂" if self.gender == "m" else "♀"} ${self.date}'
+    paired = self.paired
+    status = ' - главный'
+    if not paired and hasattr(self, 'pair'):
+      paired = self.pair
+      status = ''
+    return f'{self.name} {self.date}' + (f' - {paired.name} {paired.date} {status}' if paired else '')

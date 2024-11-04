@@ -9,15 +9,25 @@ class MatrixRequestsView(APIView):
     single = qs.filter(paired=None).exclude(id__in=paired.values_list('paired__id', flat=True))
     return (single | paired).order_by('created')
   
-  def get(self, request):
+  def get(self, request, id = ''):
     queryset = self.format_queryset(MatrixRequest.objects.filter(user=request.user))
+    if id:
+      queryset = MatrixRequest.objects.filter(id=id)
+      paired = queryset.first().paired
+      if not paired and hasattr(queryset.first(), 'pair'):
+        paired = queryset.first().pair
+      if paired:
+        queryset |= MatrixRequest.objects.filter(id=paired.id)
+    else:
+      queryset = self.format_queryset(MatrixRequest.objects.filter(user=request.user))
     serializer = MatrixRequestSerializer(queryset, many=True)
     return Response(serializer.data)
   
   def post(self, request):
-    queryset = MatrixRequest.objects.filter(id=request.data.get('id'))
+    id = request.data.pop('id')
+    queryset = MatrixRequest.objects.filter(id=id)
     
-    if queryset.exists():
+    if queryset.exists() and queryset.first().user == request.user:
       return Response(None)
       
     serializer = MatrixRequestSerializer(data={**request.data, 'user': request.user.id})

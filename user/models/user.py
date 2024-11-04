@@ -7,7 +7,6 @@ class User(models.Model):
   last_name = models.CharField('Фамилия', max_length=32, blank=True)
   username = models.CharField('Имя пользователя @', max_length=32, unique=True)
   language_code = models.CharField('Язык', default='en', max_length=2)
-  added_to_attachment_menu = models.BooleanField('Добавил в меню прикрепленных', default=False)
   allows_write_to_pm = models.BooleanField('Разрешил ему писать', default=True)
   chat_id = models.BigIntegerField('ID чата', null=True, blank=True, unique=True)
   is_active = True
