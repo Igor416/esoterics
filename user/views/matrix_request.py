@@ -25,8 +25,11 @@ class MatrixRequestsView(APIView):
   
   def post(self, request):
     id = request.data.pop('id', '')
-    queryset = MatrixRequest.objects.filter(id=id)
-    
+    if id:
+      queryset = MatrixRequest.objects.filter(id=id)
+    else:
+      queryset = MatrixRequest.objects.none()
+      
     if queryset.exists() and queryset.first().user == request.user:
       return Response(None)
       

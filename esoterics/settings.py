@@ -8,6 +8,8 @@ environ.Env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env('SECRET_KEY')
+BOT_TOKEN = env('BOT_TOKEN')
+CHAT_ID = env('CHAT_ID')
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'matrixmd.pythonanywhere.com']
@@ -21,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'user.apps.UserConfig',
     'frontend.apps.FrontendConfig',
+	'bot.apps.BotConfig',
     'corsheaders',
 	'rest_framework',
     'rest_framework_simplejwt',

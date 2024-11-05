@@ -9,10 +9,9 @@ class SessionsView(APIView):
     serializer = SessionSerializer(queryset, many=True)
     return Response(serializer.data)
   
-  
   def post(self, request):
     master = request.data.pop('master')
-    serializer = SessionSerializer(data={**request.data, 'master': master.get('id'), 'user': request.user.id})
+    serializer = SessionSerializer(data={**request.data, 'master': master.get('id'), 'customer': request.user.id})
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data)
