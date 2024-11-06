@@ -35,7 +35,7 @@ def handle_order(session: Session):
     },
     {
       'chat_id': session.master.user.id,
-      'text': f'Пользователь заказал расклад, данные:\n{'\n'.join(data)}',
+      'text': f'Пользователь заказал расклад, данные:\n{"\n".join(data)}',
     },
     {
       'chat_id': session.customer.id,
