@@ -32,4 +32,4 @@ class Session(models.Model):
     verbose_name_plural = 'Сессии'
   
   def __str__(self):
-    return f'{self.master}: {self.date.strftime("%d.%m - %H")}:00, план {self.plan}, статус - {self.get_status_display()}'
+    return f'{self.master}: {self.date.strftime("%d.%m - %H")}:00, план - {self.get_plan_display()}, статус - {self.get_status_display()}'
