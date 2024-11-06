@@ -23,6 +23,7 @@ def get_messages(session: Session):
   
 def handle_order(session: Session):
   data = [
+    '',
     f'клиент: @{session.customer.username}',
     f'тип расклада: {session.get_plan_display()}',
     f'режим: {"онлайн" if session.online else "оффлайн"}',
@@ -35,7 +36,7 @@ def handle_order(session: Session):
     },
     {
       'chat_id': session.master.user.id,
-      'text': f'Пользователь заказал расклад, данные:\n{"\n".join(data)}',
+      'text': f'Пользователь заказал расклад, данные:' + '\n'.join(data),
     },
     {
       'chat_id': session.customer.id,
