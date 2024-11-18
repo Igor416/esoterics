@@ -11,6 +11,6 @@ def filter_codes(matrix: Matrix, Model: Model, positions: str):
   if qs.exists():
     return qs.first().content
   else:
-    print(f'Не существует модели {Model} с арканами ({'-'.join(map(str, arcanes))})')
+    print(f'Не существует модели {Model} с арканами ({"-".join(map(str, arcanes))})')
   
   return ''
