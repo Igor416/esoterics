@@ -19,7 +19,7 @@ class UserView(APIView):
     if serializer.is_valid():
       user = serializer.save()
       refresh = RefreshToken.for_user(user)
-      return Response([hasattr(user, 'master'), {
+      return Response([{'isMaster': hasattr(user, 'master')}, {
         'refresh': str(refresh),
         'access': str(refresh.access_token),
       }])

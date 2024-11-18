@@ -12,7 +12,7 @@ BOT_TOKEN = env('BOT_TOKEN')
 CHAT_ID = env('CHAT_ID')
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'matrixmd.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'matrixmd.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'data.apps.DataConfig',
 	'user.apps.UserConfig',
     'frontend.apps.FrontendConfig',
 	'bot.apps.BotConfig',

@@ -4,22 +4,10 @@ from user.serializers import MatrixRequestSerializer
 from user.models import MatrixRequest
 
 class MatrixRequestsView(APIView):
-  def format_queryset(self, qs):
-    paired = qs.exclude(paired=None)
-    single = qs.filter(paired=None).exclude(id__in=paired.values_list('paired__id', flat=True))
-    return (single | paired).order_by('created')
-  
-  def get(self, request, id = ''):
-    queryset = self.format_queryset(MatrixRequest.objects.filter(user=request.user))
-    if id:
+  def get(self, request, id = 'all'):
+    queryset = MatrixRequest.objects.filter(user=request.user)
+    if id != 'all':
       queryset = MatrixRequest.objects.filter(id=id)
-      paired = queryset.first().paired
-      if not paired and hasattr(queryset.first(), 'pair'):
-        paired = queryset.first().pair
-      if paired:
-        queryset |= MatrixRequest.objects.filter(id=paired.id)
-    else:
-      queryset = self.format_queryset(MatrixRequest.objects.filter(user=request.user))
     serializer = MatrixRequestSerializer(queryset, many=True)
     return Response(serializer.data)
   
@@ -28,7 +16,7 @@ class MatrixRequestsView(APIView):
     if id:
       queryset = MatrixRequest.objects.filter(id=id)
     else:
-      queryset = MatrixRequest.objects.none()
+      queryset = MatrixRequest.objects.filter(user=request.user, **request.data)
       
     if queryset.exists() and queryset.first().user == request.user:
       return Response(None)
@@ -43,17 +31,13 @@ class MatrixRequestsView(APIView):
       
     return Response(None)
   
-  def delete(self, request):
-    id = request.data.get('id')
+  def delete(self, request, id = 'all'):
     if id == 'all':
       MatrixRequest.objects.filter(user=request.user).delete()
       return Response([])
     
     queryset = MatrixRequest.objects.filter(id=id)
-    if not queryset.exists():
-      return Response(None)
-    
     queryset.delete()
-    queryset =  self.format_queryset(MatrixRequest.objects.filter(user=request.user))
+    queryset =  MatrixRequest.objects.filter(user=request.user)
     serializer = MatrixRequestSerializer(queryset, many=True)
     return Response(serializer.data)
