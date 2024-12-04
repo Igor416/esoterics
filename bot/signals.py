@@ -1,16 +1,16 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from esoterics.settings import BOT_TOKEN, CHAT_ID
+
+from esoterics.settings import CHAT_ID
 from user.models import Session
-import requests
+
+from bot.dispatcher import Dispatcher
 
 @receiver(post_save, sender=Session, dispatch_uid='on_session_ordered')
 def on_session_saved(sender, **kwargs):
   session = kwargs.pop('instance')
-  url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
   messages = get_messages(session)
-  for message in messages:
-    requests.post(url, data=message)
+  Dispatcher.send_message(*messages)
   
 def get_messages(session: Session):
   mapping = {

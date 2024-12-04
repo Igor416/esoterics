@@ -1,9 +1,8 @@
 from rest_framework.views import APIView, Response
-import json
 
 from data.matrix import Matrix
-from data.models import Category, BlockType, Block, PrevLife, Scenario
-  
+from data.models import BlockType, Block, CodeBlock, Card
+
 class WorkerView(APIView):
   permission_classes = []
   

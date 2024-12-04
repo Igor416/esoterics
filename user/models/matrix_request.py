@@ -15,7 +15,7 @@ class MatrixRequest(models.Model):
   class Meta:
     verbose_name = 'Запрос по матрице'
     verbose_name_plural = 'Запросы по матрице'
-    ordering = ['created']
+    ordering = ['-created']
   
   def __str__(self):
     return f'{self.name} {self.date}{f" + {self.name2} {self.date2}" if self.name2 else ""}'

@@ -1,4 +1,4 @@
-from data.models import Program
+from data.models import CodeBlock
 from data.matrix import Matrix
 
 codes = [
@@ -35,7 +35,7 @@ def filter_programs(matrix: Matrix):
       code['arcanes'].append(matrix.combs[position])
   
   for code in codes:
-    qs = Program.objects.all()
+    qs = CodeBlock.objects.filter(type__title='Программы')
     for arcane in sorted(code.get('arcanes')):
       qs = qs.filter(code__contains='-' + str(arcane) + '-')
     

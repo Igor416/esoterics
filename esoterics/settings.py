@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env('SECRET_KEY')
 BOT_TOKEN = env('BOT_TOKEN')
+CHANNEL_ID = env('CHANNEL_ID')
 CHAT_ID = env('CHAT_ID')
 DEBUG = True
 

@@ -12,7 +12,7 @@ def filter_health(matrix: Matrix):
     { 'positions': 't7,e,g', 'content': [] },
     { 'positions': 't8,t9,t10', 'content': [] },
   ]
-  blocks = Block.objects.filter(type__category=None)
+  blocks = Block.objects.filter(type__title='Здоровье')
   for object in data:
     arcanes = set()
     for position in object.get('positions').split(','):

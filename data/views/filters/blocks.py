@@ -1,4 +1,4 @@
-from data.models import BlockType, Block
+from data.models import BlockType
 from data.matrix import Matrix
 
 def filter_blocks(matrix: Matrix, block_type: BlockType):
@@ -9,7 +9,7 @@ def filter_blocks(matrix: Matrix, block_type: BlockType):
       arcanes.add(matrix.combs[position])
   
   for arcane in sorted(list(arcanes)):
-    block = Block.objects.filter(type=block_type, arcane=arcane)
+    block = block_type.blocks.filter(arcane=arcane)
     if block.exists():
       resp.append(f'({arcane}) {block.first().content}')
     else:

@@ -10,10 +10,17 @@ class BlockType(models.Model):
   title = models.CharField('Название', max_length=64, blank=True)
   positions = models.CharField('Позиции', max_length=35, blank=True)
   personal = models.BooleanField('Личный', default=True)
+  for_codes = models.BooleanField('Для блоков с кодом', default=False)
   order = models.SmallIntegerField('Порядок', default=1)
   
   def __str__(self):
-    return f'{self.title if self.title else "Общее"}, категория: {self.category}, {"позиции: " + self.positions if self.personal else "общий"}'
+    s = f'{self.title if self.title else "Общее"}, категория: {self.category}'
+    if self.personal:
+      if len(self.positions) != 0:
+        s += ', позиции: ' + self.positions
+    else:
+      s += ', общий'
+    return s
   
   class Meta:
     ordering = ['category__solo', 'category__order', 'order']

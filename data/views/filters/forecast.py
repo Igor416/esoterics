@@ -1,4 +1,4 @@
-from data.models import Forecast
+from data.models import Block
 from data.matrix import Matrix
 
 mapping = ['0', '1-2.5', '2.5-3.5', '3.5-4', '5', '6-7.5', '7.5-8.5', '8-9.5']
@@ -16,8 +16,9 @@ def get_block(matrix: Matrix, letter: int, number: int):
   if sum not in arcanes:
     arcanes.append(sum)
     
+  queryset = Block.objects.filter(type__title='Прогноз на год')
   for arcane in arcanes:
-    forecast = Forecast.objects.get(arcane=arcane)
+    forecast = queryset.get(arcane=arcane)
     content += f'({arcane}) {forecast.content}' + '\n\n'
   
   return {
