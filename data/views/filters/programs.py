@@ -42,12 +42,12 @@ def filter_programs(matrix: Matrix):
     if qs.exists():
       code['content'] = get_content(qs, code)
   
-  positions = set()
+  positions = list()
   used = set()
   data = []
   for code in codes:
     if code['content']:
-      positions.update(code['positions'].split(','))
+      positions.extend(code['positions'].split(','))
       title = code['content'].split('\n')[0]
       if title not in used:
         content = '\n'.join(code['content'].split('\n')[1:])
