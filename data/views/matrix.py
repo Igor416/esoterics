@@ -18,29 +18,32 @@ class MatrixView(APIView):
       matrix += matrix2
       
     info = []
+    mapping = {
+      'Программы': filter_programs,
+      'Прогноз на год': filter_forecast,
+      'Здоровье': filter_health
+    }
     for category in Category.objects.filter(solo=matrix.solo):
       positions = category.positions.split(',') if category.positions else []
       data = []
       block_types = category.block_types.all()
-      if category.title == 'Программы':
-        data, positions = filter_programs(matrix)
-      elif category.title == 'Прогноз на год':
-        data = filter_forecast(matrix)
-      elif category.title == 'Здоровье':
-        data = filter_health(matrix)
+      if category.title in mapping:
+        data, positions = mapping[category.title](matrix)
       elif block_types.filter(for_codes=True).exists():
         data = filter_code_blocks(matrix, block_types.first())
       else:
         for block_type in block_types:
           block = {
-            'title': block_type.title if block_type.personal else 'Описание',
-            'content': ''
+            'title': block_type.title if block_type.personal else 'Описание'
           }
           if block_type.personal:
             block['content'] = filter_blocks(matrix, block_type)
           else:
             default = Block.objects.get(type=block_type)
-            block['content'] = default.content
+            block['content'] = [{
+              'arcanes': [],
+              'text': default.content
+            }]
           data.append(block)
         
       info.append({

@@ -11,8 +11,11 @@ def filter_blocks(matrix: Matrix, block_type: BlockType):
   for arcane in sorted(list(arcanes)):
     block = block_type.blocks.filter(arcane=arcane)
     if block.exists():
-      resp.append(f'({arcane}) {block.first().content}')
+      resp.append({
+        'arcanes': [block.first().arcane],
+        'text': block.first().content
+      })
     else:
       print(f'Не существует блока с типом: {block_type} и арканом ({arcane})')
   
-  return '\n'.join(resp)
+  return resp

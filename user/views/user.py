@@ -1,5 +1,5 @@
 from rest_framework.views import APIView, Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 from user.serializers import UserSerializer
@@ -7,6 +7,13 @@ from user.models import User
 
 class UserView(APIView):
   permission_classes = []
+  
+  def get(self, request):
+    token_str = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+    token = AccessToken(token_str)
+    user_id = token['user_id']
+    user = User.objects.get(id=user_id)
+    return Response(UserSerializer(user).data)
   
   def post(self, request):
     query = User.objects.filter(id=request.data.get('id'))
@@ -19,10 +26,10 @@ class UserView(APIView):
     if serializer.is_valid():
       user = serializer.save()
       refresh = RefreshToken.for_user(user)
-      return Response([hasattr(user, 'master'), {
+      return Response({
         'refresh': str(refresh),
         'access': str(refresh.access_token),
-      }])
+      })
     else:
       print(serializer.errors)
       

@@ -10,7 +10,7 @@ from bot.dispatcher import Dispatcher
 class PredictionView(APIView):
   permission_classes = []
   
-  def get_hash(date: date) -> int:
+  def get_hash(self, date: date) -> int:
     date_str = date.strftime('%Y-%m-%d')
     hash_value = hashlib.sha256(date_str.encode()).hexdigest()
     hash_int = int(hash_value, 16)

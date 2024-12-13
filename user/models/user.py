@@ -1,5 +1,7 @@
 from django.db import models
 
+from .referral_link import ReferralLink
+
 class User(models.Model):
   id = models.BigIntegerField('ID', primary_key=True)
   first_name = models.CharField('Имя', max_length=32, blank=True)
@@ -9,6 +11,8 @@ class User(models.Model):
   
   questions = models.SmallIntegerField('Баланс вопросов', default=0)
   last_action = models.TextField('Последнее действие', default='/start')
+  
+  joined_by = models.ForeignKey(ReferralLink, on_delete=models.SET_NULL, null=True, default=None, blank=True, verbose_name='Присоеденился по ссылке', related_name='referrals')
   
   is_active = True
   is_authenticated = False

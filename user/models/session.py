@@ -1,7 +1,8 @@
 from django.db import models
+from uuid import uuid4
+
 from .user import User
 from .master import Master
-from uuid import uuid4
 
 class Session(models.Model):
   id = models.UUIDField(primary_key=True, default=uuid4)
@@ -30,6 +31,7 @@ class Session(models.Model):
   class Meta:
     verbose_name = 'Сессия'
     verbose_name_plural = 'Сессии'
+    ordering = ['-date']
   
   def __str__(self):
     return f'{self.master}: {self.date.strftime("%d.%m - %H")}:00, план - {self.get_plan_display()}, статус - {self.get_status_display()}'

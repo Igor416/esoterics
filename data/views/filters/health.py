@@ -18,8 +18,10 @@ def filter_health(matrix: Matrix):
     for position in object.get('positions').split(','):
       arcanes.add(matrix.combs[position])
     for arcane in sorted(list(arcanes)):
-      object['content'].append(f'({str(arcane)}) ' + blocks.get(arcane=arcane).content)
-    object['content'] = '\n\n'.join(object['content'])
+      object['content'].append({
+        'arcanes': [arcane],
+        'text': blocks.get(arcane=arcane).content
+      })
     
   resp = []
   for object in data:
@@ -28,4 +30,4 @@ def filter_health(matrix: Matrix):
       'content': object['content']
     })
     
-  return resp
+  return (resp, blocks.first().type.positions)

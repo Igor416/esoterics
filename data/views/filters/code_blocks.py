@@ -11,7 +11,10 @@ def filter_code_blocks(matrix: Matrix, block_type: BlockType):
   if qs.exists():
     return [{
       'title': block_type.title,
-      'content': qs.first().content
+      'content': [{
+        'arcanes': map(int, qs.first().code.split('-')),
+        'text': qs.first().content
+      }]
     }]
   else:
     print(f'Не существует блока {block_type.title} с кодом ({"-".join(map(str, arcanes))})')

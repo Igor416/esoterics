@@ -1,6 +1,7 @@
 from django.db import models
-from .user import User
 from uuid import uuid4
+
+from .user import User
 
 class Master(models.Model):
   id = models.UUIDField(primary_key=True, default=uuid4)

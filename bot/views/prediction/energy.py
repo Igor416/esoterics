@@ -7,7 +7,7 @@ from .main import PredictionView
 class EnergyView(PredictionView):
   positive = True
   
-  def get_opposite_date(d1: date):
+  def get_opposite_date(self, d1: date):
     year = d1.year
     is_leap = (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0))
     total_days = 366 if is_leap else 365

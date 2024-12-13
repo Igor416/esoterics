@@ -8,7 +8,12 @@ class MatrixRequestsView(APIView):
     queryset = MatrixRequest.objects.filter(user=request.user)
     if id != 'all':
       queryset = MatrixRequest.objects.filter(id=id)
-    serializer = MatrixRequestSerializer(queryset, many=True)
+      if queryset.exists():
+        serializer = MatrixRequestSerializer(queryset.first())
+      else:
+        return Response(None)
+    else:
+      serializer = MatrixRequestSerializer(queryset, many=True)
     return Response(serializer.data)
   
   def post(self, request):

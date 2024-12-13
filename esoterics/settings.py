@@ -2,7 +2,7 @@ import environ
 from pathlib import Path
 from datetime import timedelta
 
-env = environ.Env()
+env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,7 +11,7 @@ SECRET_KEY = env('SECRET_KEY')
 BOT_TOKEN = env('BOT_TOKEN')
 CHANNEL_ID = env('CHANNEL_ID')
 CHAT_ID = env('CHAT_ID')
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'matrixmd.pythonanywhere.com']
 
