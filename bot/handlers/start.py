@@ -5,7 +5,7 @@ from typing import Tuple
 def start(update: Update) -> Tuple[Reply]:
   user = User.objects.filter(id=update.message.chat.id)
   if not user.exists():
-    User.objects.create(**{field: getattr(update.message.chat, field) for field in update.message.chat.fields})
+    User.objects.create(**{field: getattr(update.message.chat, field) for field in update.message.chat.fields if field in User.fields})
   reply = Reply(
     chat_id=update.message.chat.id,
     text='Привет, переходи по ссылке и запускай приложение! https://t.me/matrix_md_bot/main',

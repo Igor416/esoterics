@@ -46,18 +46,21 @@ def filter_programs(matrix: Matrix):
     if qs.exists():
       code['content'] = get_content(qs, code)
 
-  positions = list()
-  used = list()
+  positions = set()
+  used = set()
   data = []
   for code in codes:
     if code['content']:
-      positions.extend(code['positions'].split(','))
-      title = code['content'][0].pop('title')
+      positions.update(code['positions'].split(','))
+      title = code['content'][0].pop('title', '')
       if title not in used:
         data.append({
           'title': title,
           'content': code['content']
         })
-        used.append(title)
+        used.add(title)
+        
+  for code in codes:
+    code['arcanes'], code['content'] = [], []
 
   return (data, positions)

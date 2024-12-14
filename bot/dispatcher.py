@@ -2,7 +2,7 @@ import requests
 
 from user.models import User
 from esoterics.settings import BOT_TOKEN, CHANNEL_ID, CHAT_ID
-from bot.util import Update, Reply, PhotoReply, MediaGroup, ChatMember, Invoice
+from bot.util import Update, Reply, PhotoReply, ChatMember, Invoice
 from bot.handlers import start, answer_pre_checkout_query, request_question, answer_question, show_balance, send_answer, unknown
 
 ROOT = f'https://api.telegram.org/bot{BOT_TOKEN}'
@@ -63,9 +63,10 @@ class Dispatcher:
     requests.post(url, data=photo_reply.to_json())
   
   @staticmethod
-  def send_media_group(media_group: MediaGroup):
-    url = f'{ROOT}/sendMediaGroup'
-    requests.post(url, data=media_group.to_json())
+  def upload_photo(photo_reply: PhotoReply, path: str):
+    url = f'{ROOT}/sendPhoto'
+    with open(path, 'rb') as photo:
+      requests.post(url, data=photo_reply.to_json(), files={'photo': photo})
     
   @staticmethod
   def get_chat_member(user_id: int) -> ChatMember:

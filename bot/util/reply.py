@@ -41,7 +41,20 @@ class Reply(HasReplyMarkup):
   chat_id: int
   text: str
 
+class MessageEntity(Base):
+  type: str
+  offset: int
+  length: int
+  
 class PhotoReply(HasReplyMarkup):
   chat_id: str
   photo: str
   caption: str
+  parse_mode: str
+  caption_entities: List[MessageEntity]
+  
+  def to_json(self):
+    r = super().to_json()
+    if hasattr(self, 'caption_entities'):
+      r.update({'caption_entities': [entity.to_json() for entity in self.caption_entities]})
+    return r

@@ -9,6 +9,8 @@ class User(models.Model):
   username = models.CharField('Имя пользователя @', max_length=32, unique=True)
   language_code = models.CharField('Язык', default='ru', max_length=2)
   
+  fields = ('id', 'first_name', 'last_name', 'username', 'language_code')
+  
   questions = models.SmallIntegerField('Баланс вопросов', default=0)
   last_action = models.TextField('Последнее действие', default='/start')
   

@@ -32,7 +32,6 @@ class Card(models.Model):
   explanation1 = models.TextField('Прямое толкование', blank=True)
   meaning2 = models.TextField('Перевернутое значение', blank=True)
   explanation2 = models.TextField('Перевернутое толкование', blank=True)
-  image = models.CharField('Картинка', max_length=8, default='', blank=True, unique=True)
   objects = CardManager()
   
   @cached_property
@@ -46,8 +45,8 @@ class Card(models.Model):
     return f'{self.get_rank_display()} {self.get_suit_display()}'
   
   @cached_property
-  def get_image(self):
-    return f'https://matrixmd.pythonanywhere.com/static/cards/all/{self.image}.jpg'
+  def image(self):
+    return f'static\cards\{self.suit.lower()}\{self.arcane if self.is_major else self.rank}.jpg'
   
   def __str__(self):
     return self.name

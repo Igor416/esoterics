@@ -3,7 +3,7 @@ from datetime import date
 import hashlib
 
 from esoterics.settings import CHANNEL_ID
-from bot.util import MediaGroup, InputMediaPhoto, MessageEntity
+from bot.util import PhotoReply, MessageEntity
 from bot.models import Prediction
 from bot.dispatcher import Dispatcher
 
@@ -19,10 +19,9 @@ class PredictionView(APIView):
   def get(self, request, qs):
     prediction = Prediction.choose_prediction(qs)
     caption = prediction.print()
-    media_group = MediaGroup(chat_id=CHANNEL_ID, media=[
-      InputMediaPhoto(type='photo', media=prediction.card.image, caption=caption, parse_mode='HTML', caption_entities=[
+    photo_reply = PhotoReply(chat_id=CHANNEL_ID, caption=caption, parse_mode='HTML', caption_entities=[
         MessageEntity(type='bold', offset=0, length=caption.index('</b>') + 5)
-      ])
-    ])
-    Dispatcher.send_media_group(media_group)
+      ]
+    )
+    Dispatcher.upload_photo(photo_reply, prediction.card.image)
     return Response(None)
