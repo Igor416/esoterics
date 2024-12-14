@@ -1,7 +1,7 @@
 import requests
 
 from user.models import User
-from esoterics.settings import BOT_TOKEN, CHANNEL_ID, CHAT_ID
+from esoterics.settings import BOT_TOKEN, CHANNEL_ID, CHAT_ID, BASE_DIR
 from bot.util import Update, Reply, PhotoReply, ChatMember, Invoice
 from bot.handlers import start, answer_pre_checkout_query, request_question, answer_question, show_balance, send_answer, unknown
 
@@ -65,7 +65,7 @@ class Dispatcher:
   @staticmethod
   def upload_photo(photo_reply: PhotoReply, path: str):
     url = f'{ROOT}/sendPhoto'
-    with open(path, 'rb') as photo:
+    with open(BASE_DIR.joinpath(path), 'rb') as photo:
       requests.post(url, data=photo_reply.to_json(), files={'photo': photo})
     
   @staticmethod

@@ -46,7 +46,7 @@ class Card(models.Model):
   
   @cached_property
   def image(self):
-    return f'static\cards\{self.suit.lower()}\{self.arcane if self.is_major else self.rank}.jpg'
+    return f'static/cards/{self.suit.lower()}/{self.arcane if self.is_major else self.rank}.jpg'
   
   def __str__(self):
     return self.name
