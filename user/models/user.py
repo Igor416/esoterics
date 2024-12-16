@@ -6,7 +6,7 @@ class User(models.Model):
   id = models.BigIntegerField('ID', primary_key=True)
   first_name = models.CharField('Имя', max_length=32, blank=True)
   last_name = models.CharField('Фамилия', max_length=32, blank=True)
-  username = models.CharField('Имя пользователя @', max_length=32, unique=True)
+  username = models.CharField('Имя пользователя @', max_length=32, blank=True)
   language_code = models.CharField('Язык', default='ru', max_length=2)
   
   fields = ('id', 'first_name', 'last_name', 'username', 'language_code')
