@@ -10,8 +10,7 @@ class MatrixRequestsView(APIView):
       queryset = MatrixRequest.objects.filter(id=id)
       if queryset.exists():
         serializer = MatrixRequestSerializer(queryset.first())
-      else:
-        return Response(None)
+      return Response(None)
     else:
       serializer = MatrixRequestSerializer(queryset, many=True)
     return Response(serializer.data)

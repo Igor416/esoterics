@@ -8,7 +8,7 @@ from .filters import filter_blocks, filter_code_blocks, filter_programs, filter_
 class MatrixView(APIView):
   permission_classes = []
   
-  def get(self, request, date1, date2 = ''):
+  def get(self, request, date1: str, date2 = ''):
     solo = date2 == ''
     day, month, year = map(int, date1.split('.'))
     matrix = Matrix(solo, day, month, year)

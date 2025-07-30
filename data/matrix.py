@@ -27,10 +27,7 @@ class Matrix:
     @staticmethod
     def round(value):
       while value > 22:
-        s = 0
-        for el in str(value):
-          s += int(el)
-        value = s
+        value = sum(int(el) for el in str(value))
       return value
         
   def __init__(self, solo, day, month, year):

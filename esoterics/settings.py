@@ -1,17 +1,21 @@
-import environ
+import dotenv
+import os
 from pathlib import Path
 from datetime import timedelta
 
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env('SECRET_KEY')
-BOT_TOKEN = env('BOT_TOKEN')
-CHANNEL_ID = env('CHANNEL_ID')
-CHAT_ID = env('CHAT_ID')
-DEBUG = env('DEBUG')
+dotenv.load_dotenv(BASE_DIR / '.env')
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+DEBUG = bool(int(os.environ.get('DEBUG', '0')))
+
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+
+CHANNEL_ID = os.environ.get('CHANNEL_ID')
+
+CHAT_ID = os.environ.get('CHAT_ID')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'matrixmd.pythonanywhere.com']
 
@@ -25,7 +29,6 @@ INSTALLED_APPS = [
     'data.apps.DataConfig',
 	'user.apps.UserConfig',
     'frontend.apps.FrontendConfig',
-	'bot.apps.BotConfig',
     'corsheaders',
 	'rest_framework',
     'rest_framework_simplejwt',
