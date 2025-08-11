@@ -4,5 +4,8 @@ from user.models import MatrixRequest
 
 class MatrixRequestSerializer(ModelSerializer):
   class Meta:
-    exclude = ['user']
+    fields = '__all__'
     model = MatrixRequest
+    extra_kwargs = {
+      'user': {'write_only': True}
+    }
